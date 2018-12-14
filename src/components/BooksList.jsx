@@ -1,6 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
+import Accordeon from './Accordeon'
 
-const BooksList = () =>
-	<div>aergvfdsgv</div>
+const BooksList = ({ books }) =>
+  <div className="container">
+    <h1 className="page-title">Books list</h1>
+    <Accordeon books={books} />
+  </div>
 
-export default BooksList
+const mapStateToProps = (store) => ({
+  books: store
+})
+
+export default connect(mapStateToProps, null)(BooksList)

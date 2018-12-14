@@ -1,4 +1,31 @@
+@import '~antd/lib/style/themes/default.less';
+
 body {
   margin: 0;
   padding: 0;
+}
+
+.container {
+	width: 1140px;
+	margin: 0 auto;
+
+	@media (max-width: 1199px) {
+		width: 940px;
+	}
+
+	@media (max-width: 991px) {
+		width: 750px;
+	}
+
+	@media (max-width: 767px) {
+		width: 100%;
+		padding: 0 15px;
+	}
+}
+
+.book-image {
+	width: 200px;
+	height: 200px;
+	display: inline-block;
+	
 }
