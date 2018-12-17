@@ -6,11 +6,7 @@ class Accordeon extends PureComponent {
     super(props)
 
     this.state = {
-      active: '',
-      sort: {
-        type: 'title',
-        directionIncrease: true
-      }
+      active: ''
     }
   }
 
@@ -33,19 +29,19 @@ class Accordeon extends PureComponent {
       ? books.sort((a, b) => a.publicationDate - b.publicationDate)
       : books.sort((a, b) => b.publicationDate - a.publicationDate)
 
-  sortBooks = (books, type, directionIncrease) =>
+  sortBooks = (books, type, title, year) =>
     type === 'title'
-      ? this.sortByTitle(books, directionIncrease)
-      : this.sortByDate(books, directionIncrease)
+      ? this.sortByTitle(books, title)
+      : this.sortByDate(books, year)
 
   render () {
-    const { books } = this.props
-    const { active, sort: { type, directionIncrease } } = this.state
+    const { books, sort: { title, year, active: activeSortType } } = this.props
+    const { active } = this.state
 
     return (
       <ul className="accordeon">
         {
-          this.sortBooks(books, type, directionIncrease).map(book =>
+          this.sortBooks(books, activeSortType, title, year).map(book =>
             <Book
               key={book.ISBN}
               book={book}

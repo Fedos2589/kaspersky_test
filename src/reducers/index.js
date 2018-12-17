@@ -1,7 +1,7 @@
 import { ADD, DELETE, EDIT } from '../actions'
 import { books } from '../books'
 
-const reducer = (books = books, action) => {
+const booksList = (books = books, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -22,4 +22,4 @@ const reducer = (books = books, action) => {
   return books
 }
 
-export default reducer
+export default booksList

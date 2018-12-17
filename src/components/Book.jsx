@@ -32,7 +32,7 @@ const Book = (
         <Link to="/">
           <Icon type="delete" />
         </Link>
-        <Link to="/form">
+        <Link to={{ pathname: '/form', state: { ISBN: ISBN } }}>
           <Icon type="edit" />
         </Link>
       </div>

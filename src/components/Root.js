@@ -9,7 +9,7 @@ class Root extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path='/' render={ () => <BooksList /> } />
-          <Route exact path='/form' render={ () => <Form /> } />
+          <Route exact path='/form' render={ (props) => <Form {...props} /> } />
         </Switch>
       </BrowserRouter>
     )
