@@ -1,13 +1,27 @@
 @import '~antd/lib/style/themes/default.less';
 
+@import 'less/books.less';
+
+//font-size
+
+@small-text: 14px;
+@regular-text: 16px;
+@large-text: 22px;
+@sub-title-text: 30px;
+@title-text: 36px;
+@block-title-text: 42px;
+@main-page-text:48px;
+
 body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .container {
 	width: 1140px;
 	margin: 0 auto;
+  box-sizing: border-box;
 
 	@media (max-width: 1199px) {
 		width: 940px;
@@ -23,9 +37,42 @@ body {
 	}
 }
 
-.book-image {
-	width: 200px;
-	height: 200px;
-	display: inline-block;
-	
+.page-title {
+  font-size: @main-page-text;
+  line-height: 48px;
+  letter-spacing: -1px;
+
+  @media(max-width: 992px) {
+    font-size: @block-title-text;
+  }
+
+  @media(max-width:543px) {
+    font-size: @title-text;
+    line-height: 42px;
+    letter-spacing: -.5px;
+  }
+}
+
+.sub-title {
+  font-size: @sub-title-text;
+  line-height: 32px;
+  letter-spacing: -.5px;
+  margin: 20px 0;
+
+  @media(max-width: 767px) {
+    font-size: @large-text;
+    line-height: 28px;
+    letter-spacing: normal;
+    margin: 10px 0;
+  }
+}
+
+.regular-text {
+  font-size: @regular-text;
+  line-height: 24px;
+
+  @media(max-width: 767px) {
+    font-size: @small-text;
+    line-height: 20px;
+  }
 }

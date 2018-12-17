@@ -6,20 +6,46 @@ class Accordeon extends PureComponent {
     super(props)
 
     this.state = {
-      active: ''
+      active: '',
+      sort: {
+        type: 'title',
+        directionIncrease: true
+      }
     }
   }
 
-  setActiveBook = (id) => this.setState({ active: id }) 
+  componentDidMount() {
+    if (this.props.books) this.setState({ active: this.props.books[0].ISBN })
+  }
+
+  setActiveBook = (id) =>
+    id === this.state.active
+      ? this.setState({ active: '' })
+      : this.setState({ active: id })
+
+  sortByTitle = (books, directionIncrease) =>
+    directionIncrease
+      ? books.sort((a, b) => a.title.localeCompare(b.title))
+      : books.sort((a, b) => b.title.localeCompare(a.title))
+
+  sortByDate = (books, directionIncrease) =>
+    directionIncrease
+      ? books.sort((a, b) => a.publicationDate - b.publicationDate)
+      : books.sort((a, b) => b.publicationDate - a.publicationDate)
+
+  sortBooks = (books, type, directionIncrease) =>
+    type === 'title'
+      ? this.sortByTitle(books, directionIncrease)
+      : this.sortByDate(books, directionIncrease)
 
   render () {
     const { books } = this.props
-    const { active } = this.state
+    const { active, sort: { type, directionIncrease } } = this.state
 
     return (
       <ul className="accordeon">
         {
-          books.map(book =>
+          this.sortBooks(books, type, directionIncrease).map(book =>
             <Book
               key={book.ISBN}
               book={book}
