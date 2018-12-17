@@ -3,16 +3,28 @@ import { connect } from 'react-redux'
 import Accordeon from './Accordeon'
 import Sort from './Sort'
 
+const INITIAL_STATE = {
+  title: true,
+  year: true,
+  active: 'title'
+}
+
 class BooksList extends PureComponent {
   constructor(props) {
     super(props)
 
-    this.state = {
-      title: true,
-      year: true,
-      active: 'title'
-    }
+    this.state = JSON.parse(localStorage.getItem('bookSort')) || INITIAL_STATE
   }
+
+  componentDidMount() {
+    this.refreshStateInLocalStorage()
+  }
+
+  componentDidUpdate() {
+    this.refreshStateInLocalStorage()
+  }
+
+  refreshStateInLocalStorage = () => localStorage.setItem('bookSort', JSON.stringify(this.state))
 
   handleSortClick = (type) =>
     this.setState({
