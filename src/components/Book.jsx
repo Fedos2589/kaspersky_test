@@ -26,9 +26,6 @@ const Book = (
         {title}
       </div>
       <div className="book-controls">
-        <Link to="/form">
-          <Icon type="plus" />
-        </Link>
         <Link to="/">
           <Icon type="delete" />
         </Link>

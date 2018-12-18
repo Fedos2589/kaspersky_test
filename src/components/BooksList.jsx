@@ -45,7 +45,6 @@ class BooksList extends PureComponent {
   }
 }
 
-
 const mapStateToProps = (store) => ({
   books: store
 })

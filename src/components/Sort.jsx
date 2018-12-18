@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Icon } from 'antd'
+import { Link } from 'react-router-dom'
 
 const Sort = ({ sort: { title, year, active }, onClick }) =>
   <div className="sort">
@@ -26,6 +27,10 @@ const Sort = ({ sort: { title, year, active }, onClick }) =>
           : <Icon type="arrow-up" />
       }
     </div>
+    <Link to="/form">
+      <Icon type="plus" style={{ marginRight: '7px' }} />
+      Add record
+    </Link>
   </div>
 
 export default Sort

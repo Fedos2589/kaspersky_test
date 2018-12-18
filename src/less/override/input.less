@@ -1,0 +1,107 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+input {
+  -webkit-appearance: none;
+}
+
+.ant-input[disabled] {
+  ~ .label {
+    z-index: 1;
+  }
+  background-color: @disabled-bg;
+  color: @disabled-color;
+}
+
+.ant-input-number input {
+  height: 30px;
+}
+
+.ant-input-number-handler-wrap {
+  display: none;
+}
+
+.ant-input, .ant-input-number {
+  padding-top: 25px;
+  font-weight: 200;
+
+  &::placeholder {
+    opacity: 0;
+    color: @text-color;
+  }
+
+  &:hover {
+    border-color: @border-color-base;
+  }
+
+  &:focus {
+    border-color: @primary-color;
+    &::placeholder {
+      opacity: 1;
+    }
+  }
+
+  &-disabled~.label{
+    z-index: auto;
+  }
+
+  &#phone {
+    padding-left: 40px;
+  }
+}
+
+.ant-input-number {
+  width: 100%;
+
+  &.ant-input-number-focused {
+    ~ .label {
+      .focusedLabel()
+    }
+  }
+}
+
+.has-error .ant-input:focus {
+  border-color: @error-color; // base-color
+  box-shadow: none;
+  ~ .label {
+    color: inherit;
+  }
+}
+
+.has-error .ant-input {
+  ~ .label {
+    color: @error-color;
+    .focusedLabel()
+  }
+}
+
+.has-success .ant-input {
+  ~ .label {
+    .focusedLabel()
+  }
+}
+
+.has-error .ant-input:not([disabled]):hover {
+  border-color: @error-color;
+}
+
+.has-error .ant-input:not([disabled]):focus {
+  border-color: @primary-color;
+}
+
+.ant-form-explain, .ant-form-extra {
+  margin-top: 0 !important;
+}
+
+.mask-placeholder {
+  font-weight: 200;
+  font-size: 18px;
+  line-height: 18px;
+  position: absolute;
+  top: 30px;
+  left: 11px;
+}

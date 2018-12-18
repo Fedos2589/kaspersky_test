@@ -1,0 +1,32 @@
+.focusedLabel {
+  transform: translate(15px, -59px);
+  font-size: 12px;
+  z-index: 1;
+}
+
+.label {
+  position: absolute;
+  top: 44px;
+  left: -4px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 95%;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 200;
+  text-align: left;
+  transform: translate(20px, -45px);
+  transition: transform ease 0.3s, font-size ease 0.3s;
+  z-index: -1;
+}
+
+.ant-input:focus ~ .label {
+  .focusedLabel()
+}
+
+.ant-form-item.touched {
+  .label {
+   .focusedLabel()
+  }
+}
