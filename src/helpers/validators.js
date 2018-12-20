@@ -1,7 +1,5 @@
 import { validateForm } from '../validate.js'
-import { arraymove } from './helpers.js'
-import differenceInYears from 'date-fns/difference_in_years'
-import isFuture from 'date-fns/is_future'
+import { toValidDateFormat } from './helpers'
 import isValid from 'date-fns/is_valid'
 
 export const completeField = (rule, value, callback) => {
@@ -15,18 +13,13 @@ export const completeField = (rule, value, callback) => {
 }
 
 export const isOutOfRange = (rule, value, callback) => {
-  if (value) {
-    let dateDiff = differenceInYears(
-      new Date(Date.now()),
-      new Date(arraymove(value.split('.'), 1, 0).join('/'))
-    )
-
-    if (isFuture(new Date(arraymove(value.split('.'), 1, 0).join('/')))) {
+  if (value && !value.match('_')) {
+    if (new Date(toValidDateFormat(value)) > new Date()) {
       callback(validateForm.releaseDate.dateInFutureMessage)
     }
 
-    dateDiff > 114
-      ? callback(validateForm.releaseDate.outOfAgeRangeMessage)
+    new Date(toValidDateFormat(value)) < new Date('01.01.1800')
+      ? callback(validateForm.releaseDate.outOfRangeMessage)
       : callback()
   } else {
     callback(validateForm.releaseDate.requiredMessage)
@@ -35,7 +28,7 @@ export const isOutOfRange = (rule, value, callback) => {
 
 export const correctDate = (rule, value, callback) => {
   if (value && !value.match('_')) {
-    isValid(value)
+    isValid(new Date(toValidDateFormat(value)))
       ? callback()
       : callback(validateForm.releaseDate.correctDateMessage)
   } else {
@@ -55,15 +48,24 @@ export const numberOfPages = (rule, value, callback) => {
 
 export const yearRange = (rule, value, callback) => {
   if (value) {
-
     if (value > new Date().getFullYear()) {
-      callback(validateForm.year.dateInFutureMessage)
+      callback(validateForm.publicationDate.dateInFutureMessage)
     }
 
     value < 1800
-      ? callback(validateForm.pages.outOfRangeMessage)
+      ? callback(validateForm.publicationDate.outOfRangeMessage)
       : callback()
   } else {
-    callback(validateForm.pages.requiredMessage)
+    callback()
+  }
+}
+
+export const ISBNValidator = (rule, value, callback) => {
+  if (value) {
+    value.length === 10 || value.length === 13
+      ? callback()
+      : callback(validateForm.ISBN.validationMessage)
+  } else {
+    callback()
   }
 }

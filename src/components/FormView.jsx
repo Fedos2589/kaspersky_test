@@ -1,12 +1,22 @@
 import React, { Component } from 'react'
-import { Form, Input, Checkbox, Button, Row, Col } from 'antd'
+import { Form, Input, Checkbox, Button, Row, Col, Upload, Icon, message } from 'antd'
 import MaskedInput from 'react-text-mask'
 import { validateForm } from '../validate'
-import { completeField, isOutOfRange, correctDate, yearRange, numberOfPages } from '../helpers/validators'
+import {
+  completeField,
+  isOutOfRange,
+  correctDate,
+  yearRange,
+  numberOfPages,
+  ISBNValidator
+} from '../helpers/validators'
+import { authorsToFields } from '../helpers/helpers'
 import classNames from 'classnames'
 import Author from './Author'
+import { Link } from 'react-router-dom'
 
 const FormItem = Form.Item
+const Dragger = Upload.Dragger
 
 class FormView extends Component {
   constructor(props) {
@@ -17,19 +27,35 @@ class FormView extends Component {
     }
   }
 
-  handleFocus = () => this.setState({ maskPlaceholder: true })
-
-  handleBlur = (value) => {
-    if (!value) this.setState({ maskPlaceholder: false })
+  componentDidMount () {
+    this.setFields()
+    this.setFormType()
   }
 
-  render() {
-    const { ISBN, handleSubmit, onInputChange, authors, form } = this.props
+  setFields = () => this.props.form.setFieldsValue({ ...this.props, ...authorsToFields(this.props.authors) })
 
-    const { getFieldDecorator } = form
+  setFormType = () => this.setState({ formType: this.props.ISBN ? 'EDIT' : 'ADD' })
+
+  handleFocus = () => this.setState({ maskPlaceholder: true })
+
+  handleBlur = (value) => value ? '' : this.setState({ maskPlaceholder: false })
+
+  render() {
+    const {
+      ISBN,
+      authors,
+      handleSubmit,
+      onInputChange,
+      form,
+      addAuthor,
+      deleteAuthor,
+      setAuthor
+    } = this.props
+
+    const { getFieldDecorator, setFieldsValue } = form
 
     return (
-      <Form onSubmit={(e) => handleSubmit(e, form)} className="form">
+      <Form onSubmit={(e) => handleSubmit(e, form, this.state.formType)} className="form">
         <h1 className="page-title">{ISBN ? 'Edit record' : 'Add record'}</h1>
         <Row>
           <Col sm={24}>
@@ -45,8 +71,7 @@ class FormView extends Component {
                       },
                       {
                         required: true,
-                        whitespace: true,
-                        message: validateForm.title.requiredErrorMessage
+                        message: validateForm.title.requiredMessage
                       }
                     ]
                   })(
@@ -60,24 +85,24 @@ class FormView extends Component {
           </Col>
         </Row>
         {
-        	authors
-	        	? authors.map(author =>
-			        	<Author
-			        		author={author}
-			        		onInputChange={onInputChange}
-			        		getFieldDecorator={getFieldDecorator}
-			        		FormItem={FormItem}
-			        	/>
-			        )
-	        	: <Author
-		        		author={{ name: '', surname: ''}}
-		        		onInputChange={onInputChange}
-		        		getFieldDecorator={getFieldDecorator}
-		        		FormItem={FormItem}
-		        	/>
+          authors.map((author, i) =>
+            <Author
+              onInputChange={onInputChange}
+              getFieldDecorator={getFieldDecorator}
+              FormItem={FormItem}
+              index={i}
+              setFieldsValue={setFieldsValue}
+              last={i === authors.length - 1}
+              only={authors.length === 1}
+              addAuthor={addAuthor}
+              deleteAuthor={deleteAuthor}
+              setAuthor={setAuthor}
+              key={i}
+            />
+          )
         }
         <Row>
-        	<Col sm={24} md={6}>
+          <Col sm={24} md={6}>
             <FormItem hasFeedback={true}>
               {
                 getFieldDecorator(
@@ -90,7 +115,7 @@ class FormView extends Component {
                       {
                         required: true,
                         whitespace: true,
-                        message: validateForm.title.requiredErrorMessage
+                        message: validateForm.title.requiredMessage
                       }
                     ]
                   })(
@@ -98,7 +123,7 @@ class FormView extends Component {
                     )
               }
               <div className='label'>
-                Title
+                Pages
               </div>
             </FormItem>
           </Col>
@@ -127,35 +152,35 @@ class FormView extends Component {
             <FormItem hasFeedback={true}>
               {
                 getFieldDecorator(
-                  'year', {
+                  'publicationDate', {
                     validateTrigger: ["onChange", "onBlur"],
                     rules: [
+                      {
+                        pattern: new RegExp(/^[\d]+$/),
+                        message: validateForm.publicationDate.validationMessage
+                      },
                       {
                         validator: yearRange
                       }
                     ]
                   })(
-                      <Input size='large' onChange={(e) => onInputChange('year', e.target.value)} />
+                      <Input size='large' onChange={(e) => onInputChange('publicationDate', e.target.value)} />
                     )
               }
               <div className='label'>
-                Year
+                Publication date
               </div>
             </FormItem>
           </Col>
         </Row>
         <Row>
-        	<Col sm={24} md={12}>
+          <Col sm={24} md={12}>
             <FormItem hasFeedback={true}>
               {
                 getFieldDecorator(
                   'releaseDate', {
                     validateTrigger: ["onChange", "onBlur"],
                     rules: [
-                      {
-                        required: true,
-                        message: validateForm.releaseDate.requiredErrorMessage
-                      },
                       {
                         validator: completeField
                       },
@@ -190,8 +215,11 @@ class FormView extends Component {
                     validateTrigger: ["onChange", "onBlur"],
                     rules: [
                       {
-                        required: true,
-                        message: validateForm.name.requiredErrorMessage
+                        pattern: new RegExp(/^[\d]+$/),
+                        message: validateForm.ISBN.patternMessage
+                      },
+                      {
+                        validator: ISBNValidator
                       }
                     ]
                   })(
@@ -201,6 +229,31 @@ class FormView extends Component {
               <div className='label'>
                 ISBN
               </div>
+            </FormItem>
+          </Col>
+          <Col sm={{ span: 24 }} >
+            <Dragger name={ISBN} action={'//jsonplaceholder.typicode.com/posts/'}>
+              <p className="ant-upload-drag-icon">
+                <Icon type="inbox" />
+              </p>
+              <p className="ant-upload-text">Click or drag file to this area to upload</p>
+              <p className="ant-upload-hint">
+                Support for a single upload. Strictly prohibit from uploading company data or other band files
+              </p>
+            </Dragger>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={{ span: 24 }} >
+            <FormItem>
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                className="main-button"
+              >
+                Submit
+              </Button>
             </FormItem>
           </Col>
         </Row>

@@ -6,16 +6,15 @@ const booksList = (books = books, action) => {
 
   switch (type) {
     case ADD: {
-      const { newBook } = payload
-      return [...books, newBook ]
+      return [...books, payload ]
     }
     case DELETE: {
-      const { newBook } = payload
-      return [...books, newBook ]
+      let filteredBooks = books.filter(item => item.ISBN !== payload)
+      return [...filteredBooks]
     }
     case EDIT: {
-      const { newBook } = payload
-      return [...books, newBook ]
+      let filteredBooks = books.filter(item => item.ISBN !== payload.ISBN)
+      return [...filteredBooks, payload ]
     }
   }
 

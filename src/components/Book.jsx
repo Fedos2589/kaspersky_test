@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon } from 'antd'
 import classNames from 'classnames'
@@ -7,7 +8,8 @@ const Book = (
   {
     book: { title, authors, pages, publisher, publicationDate, releaseDate, ISBN },
     active,
-    onClick
+    onClick,
+    dispatch
   }
 ) =>
   <li
@@ -26,7 +28,7 @@ const Book = (
         {title}
       </div>
       <div className="book-controls">
-        <Link to="/">
+        <Link to="/" onClick={() => dispatch({ type: 'DELETE', payload: ISBN })}>
           <Icon type="delete" />
         </Link>
         <Link to={{ pathname: '/form', state: { ISBN: ISBN } }}>
@@ -52,4 +54,4 @@ const Book = (
     </div>
   </li>
 
-export default Book
+export default connect(null, null)(Book)

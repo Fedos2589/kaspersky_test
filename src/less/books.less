@@ -38,6 +38,11 @@
       }
     }
 
+    .book-description-text div:not(.book-authors-title),
+    .book-description-text ul:not(.book-authors-title) {
+      margin-bottom: 20px;
+    }
+
     .book-image {
       width: 300px;
       height: 400px;
@@ -51,9 +56,13 @@
       }
     }
 
-    .book-controls a {
-      display: inline-block;
-      margin-left: 20px;
+    .book-controls {
+      white-space: nowrap;
+
+      a {
+        display: inline-block;
+        margin-left: 20px;
+      }
     }
 
     &.active {

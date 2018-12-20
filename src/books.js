@@ -14,7 +14,7 @@ export const books = [
     'pages': '256',
     'publisher': 'Arthur A. Levine Books',
     'publicationDate': '1999',
-    'releaseDate': '1999-10-01',
+    'releaseDate': '01.10.1999',
     'ISBN': '9780545790352'
   },
   {
@@ -36,7 +36,7 @@ export const books = [
     'pages': '336',
     'publisher': 'Arthur A. Levine Books',
     'publicationDate': '2016',
-    'releaseDate': '2017-01-15',
+    'releaseDate': '15.01.2017',
     'ISBN': '9781338099133'
   },
   {
@@ -58,7 +58,7 @@ export const books = [
     'pages': '1392',
     'publisher': 'Oxford University Press, USA',
     'publicationDate': '1993',
-    'releaseDate': '1994-12-05',
+    'releaseDate': '05.12.1994',
     'ISBN': '9780198800545'
   },
   {
@@ -72,7 +72,7 @@ export const books = [
     'pages': '153',
     'publisher': 'Yahoo Press',
     'publicationDate': '2008',
-    'releaseDate': '2008-05-01',
+    'releaseDate': '01.05.2008',
     'ISBN': '9780596517748'
   }
 ]
