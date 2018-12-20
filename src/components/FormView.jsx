@@ -10,10 +10,11 @@ import {
   numberOfPages,
   ISBNValidator
 } from '../helpers/validators'
-import { authorsToFields } from '../helpers/helpers'
+import { authorsToFields, requestCreator } from '../helpers/helpers'
 import classNames from 'classnames'
 import Author from './Author'
 import { Link } from 'react-router-dom'
+import cors from 'cors'
 
 const FormItem = Form.Item
 const Dragger = Upload.Dragger
@@ -39,6 +40,11 @@ class FormView extends Component {
   handleFocus = () => this.setState({ maskPlaceholder: true })
 
   handleBlur = (value) => value ? '' : this.setState({ maskPlaceholder: false })
+
+  dragHandle = (file) =>
+    requestCreator('https://api.imgur.com/3/image/', 'post', { image: file })
+      .then(res => console.log(res))
+      .catch(error => console.log(error))
 
   render() {
     const {
@@ -110,12 +116,16 @@ class FormView extends Component {
                     validateTrigger: ["onChange", "onBlur"],
                     rules: [
                       {
-                        validator: numberOfPages,
+                        pattern: new RegExp(/^[\d]+$/),
+                        message: validateForm.pages.validationMessage
                       },
                       {
                         required: true,
                         whitespace: true,
-                        message: validateForm.title.requiredMessage
+                        message: validateForm.pages.requiredMessage
+                      },
+                      {
+                        validator: numberOfPages
                       }
                     ]
                   })(
@@ -232,7 +242,7 @@ class FormView extends Component {
             </FormItem>
           </Col>
           <Col sm={{ span: 24 }} >
-            <Dragger name={ISBN} action={'//jsonplaceholder.typicode.com/posts/'}>
+            <Dragger name={ISBN} action={this.dragHandle}>
               <p className="ant-upload-drag-icon">
                 <Icon type="inbox" />
               </p>

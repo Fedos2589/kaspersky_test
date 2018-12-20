@@ -37,7 +37,7 @@ const Book = (
       </div>
     </h3>
     <div className="book-description">
-      <img className="book-image" src={require(`../img/${ISBN}.jpg`)} />
+      <img className="book-image" src={require(`../img/${ISBN}.jpg`) || 'https://yt3.ggpht.com/a-/AN66SAwf23sWPRSeqTbpSYiAMt8dVUh9mivMyP-8Mg=s900-mo-c-c0xffffffff-rj-k-no'} />
       <div className="book-description-text">
         <div className="book-authors-title">Authors:</div>
         <ul className="book-authors">
