@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import FormView from './FormView'
 import find from 'lodash/find'
 import { authorsToFields, formatValuesFromFields } from '../helpers/helpers'
@@ -40,6 +41,8 @@ class Form extends Component {
           type: formType,
           payload: formatValuesFromFields(values)
         })
+
+        this.props.history.push('/')
       }
     })
   }
@@ -64,4 +67,4 @@ const mapStateToProps = (store) => ({
   books: store
 })
 
-export default connect(mapStateToProps, null)(Form)
+export default withRouter(connect(mapStateToProps, null)(Form))

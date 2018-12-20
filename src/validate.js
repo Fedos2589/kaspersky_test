@@ -21,7 +21,8 @@ export const validateForm = {
   },
   pages: {
     requiredMessage: "Required field",
-    outOfRangeMessage: "The number of pages must be greater than 0 and not more than 10,000"
+    outOfRangeMessage: "The number of pages must be greater than 0 and not more than 10,000",
+    validationMessage: "Only digits"
   },
   publisher: {
     lengthMessage: "Up to 30 characters"
