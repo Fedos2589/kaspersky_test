@@ -225,6 +225,11 @@ class FormView extends Component {
                     validateTrigger: ["onChange", "onBlur"],
                     rules: [
                       {
+                        required: true,
+                        whitespace: true,
+                        message: validateForm.ISBN.requiredMessage
+                      },
+                      {
                         pattern: new RegExp(/^[\d]+$/),
                         message: validateForm.ISBN.patternMessage
                       },

@@ -33,6 +33,7 @@ export const validateForm = {
     validationMessage: "Only digits"
   },
   ISBN: {
+    requiredMessage: "Required field",
     validationMessage: "Incorrect ISBN, must contain 10 or 13 digits",
     patternMessage: "Only digits"
   },
