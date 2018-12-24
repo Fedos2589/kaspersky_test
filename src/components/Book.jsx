@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 const Book = (
   {
-    book: { title, authors, pages, publisher, publicationDate, releaseDate, ISBN },
+    book: { title, authors, pages, publisher, publicationDate, releaseDate, ISBN, NOimg },
     active,
     onClick,
     dispatch
@@ -37,7 +37,11 @@ const Book = (
       </div>
     </h3>
     <div className="book-description">
-      <img className="book-image" src={require(`../img/${ISBN}.jpg`) || 'https://yt3.ggpht.com/a-/AN66SAwf23sWPRSeqTbpSYiAMt8dVUh9mivMyP-8Mg=s900-mo-c-c0xffffffff-rj-k-no'} />
+      {
+        NOimg
+          ? <img className="book-image" src={'https://yt3.ggpht.com/a-/AN66SAwf23sWPRSeqTbpSYiAMt8dVUh9mivMyP-8Mg=s900-mo-c-c0xffffffff-rj-k-no'} />
+          : <img className="book-image" src={require(`../img/${ISBN}.jpg`)} />
+      }
       <div className="book-description-text">
         <div className="book-authors-title">Authors:</div>
         <ul className="book-authors">

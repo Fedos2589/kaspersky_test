@@ -6,7 +6,7 @@ const booksList = (books = books, action) => {
 
   switch (type) {
     case ADD: {
-      return [...books, payload ]
+      return [...books, { ...payload, NOimg: true } ]
     }
     case DELETE: {
       let filteredBooks = books.filter(item => item.ISBN !== payload)
